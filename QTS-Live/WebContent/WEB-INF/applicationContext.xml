@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+                            
+                            
+
+ 	<context:annotation-config />
+ 	
+<!--  	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/QTS-Live-Ref" expected-type="javax.sql.DataSource" resource-ref="true" /> -->
+ 	
+ 	<context:component-scan base-package="br.com.qtslive"/>
+ 
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />		
+<!-- 		<property name="url" value="jdbc:mysql://mysql61815-qtslive.jelasticlw.com.br/qts" /> -->
+		<property name="url" value="jdbc:mysql://localhost:3306/qts" />
+<!-- 		<property name="username" value="apstqts" /> -->
+<!-- 		<property name="password" value="apstqts" /> -->
+		<property name="username" value="root" />
+		<property name="password" value="123456" />
+	</bean>
+	
+	
+ 
+</beans>

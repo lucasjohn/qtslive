@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+	
+ 	<constant name="struts.devMode" value="false" />
+ 	
+ 	<constant name="struts.action.extension" value=","/>
+ 	 	 
+ 	<constant name="struts.custom.i18n.resources" value="global" />
+ 
+	<package name="default" namespace="/" extends="struts-default, json-default">
+	
+		<!-- INTERCEPTORS -->
+		
+		<interceptors>
+				<!--<interceptor class="br.com.qtslive.internacionalizacao.interceptor.LocaleInterceptor" name="localeInterceptor" /> -->
+                <interceptor class="br.com.qtslive.login.interceptor.LoginInterceptor" name="loginInterceptor" />                
+                <interceptor-stack name="loginStack">
+                        <interceptor-ref name="loginInterceptor" />
+                        <interceptor-ref name="defaultStack" />
+                </interceptor-stack>
+        </interceptors>
+       
+        
+		<!-- ERRO 500 -->
+		<global-results>
+			<result name="error">WEB-INF/pages/erro/erro.jsp</result>
+		</global-results>
+	
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<!-- ERRO 404 -->
+		<action name="*">
+            <result>erro.jsp</result>
+        </action>	
+				
+		<!-- INTERNACIONALIZACAO -->		
+        <action name="bem-vindo" class="br.com.qtslive.internacionalizacao.action.LocaleAction">
+			<!--<interceptor-ref name="localeInterceptor"/> -->
+	        <result name="success">inicio.jsp</result>	        
+        </action>
+        <action name="bienvenido" class="br.com.qtslive.internacionalizacao.action.LocaleAction">
+        	<!--<interceptor-ref name="localeInterceptor"/> -->
+	        <result name="success">inicio.jsp</result>	        
+        </action>
+        <action name="welcome" class="br.com.qtslive.internacionalizacao.action.LocaleAction">
+        	<!--<interceptor-ref name="localeInterceptor"/> -->
+	        <result name="success">inicio.jsp</result>	        
+        </action>
+        
+        <!-- LOGIN -->		
+		<action name="login" class="br.com.qtslive.login.action.LoginAction" method="iniciar">
+	        <result name="success">index.jsp</result>	        
+        </action>
+        
+        <action name="loginHome" class="br.com.qtslive.login.action.LoginAction" method="login">	        
+	        <result name="success" type="redirect">home</result>
+	        <result name="login" type="redirect">login</result>	              
+        </action>
+        
+        <action name="logout" class="br.com.qtslive.login.action.LoginAction" method="logout">	        
+	        <result name="success" type="redirect">login</result>	              
+        </action>
+        
+        <!-- HOME -->
+        
+        <action name="home" class="br.com.qtslive.home.action.HomeAction" method="iniciar">
+        	<interceptor-ref name="loginStack"/>        	
+	        <result name="success">WEB-INF/pages/home/home.jsp</result>
+	        <result name="login" type="redirect">login</result>	        	              
+        </action>
+        
+        <!-- CONFIGURACOES -->
+        
+        <action name="config" class="br.com.qtslive.configuracoes.action.IniciarPainelConfiguracoesAction" method="iniciar">
+        	<interceptor-ref name="loginStack"/>        	
+	        <result name="success">WEB-INF/pages/configuracoes/painelConfig.jsp</result>
+	        <result name="login" type="redirect">login</result>	        	              
+        </action>
+        
+        <!-- POSIÇÕES -->
+        <action name="criarPosicaoJson" class="br.com.qtslive.configuracoes.action.PosicaoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarPosicaoJson" class="br.com.qtslive.configuracoes.action.PosicaoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirPosicaoJson" class="br.com.qtslive.configuracoes.action.PosicaoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="posicoes" class="br.com.qtslive.configuracoes.action.PosicaoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/posicoes.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- DOMINÂNICA -->
+        <action name="dominancias" class="br.com.qtslive.configuracoes.action.DominanciaListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/dominancias.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarDominanciaJson" class="br.com.qtslive.configuracoes.action.DominanciaCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarDominanciaJson" class="br.com.qtslive.configuracoes.action.DominanciaEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirDominanciaJson" class="br.com.qtslive.configuracoes.action.DominanciaExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- CATEGORIAS -->
+        <action name="categorias" class="br.com.qtslive.configuracoes.action.CategoriaListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/categorias.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarCategoriaJson" class="br.com.qtslive.configuracoes.action.CategoriaCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarCategoriaJson" class="br.com.qtslive.configuracoes.action.CategoriaEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirCategoriaJson" class="br.com.qtslive.configuracoes.action.CategoriaExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- PERFIL -->
+        <action name="perfis" class="br.com.qtslive.configuracoes.action.PerfilListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/perfis.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarPerfilJson" class="br.com.qtslive.configuracoes.action.PerfilCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarPerfilJson" class="br.com.qtslive.configuracoes.action.PerfilEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirPerfilJson" class="br.com.qtslive.configuracoes.action.PerfilExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- EXERCÍCIO -->
+        <action name="exercicios" class="br.com.qtslive.configuracoes.action.ExercicioListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/exercicios.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarExercicioJson" class="br.com.qtslive.configuracoes.action.ExercicioCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarExercicioJson" class="br.com.qtslive.configuracoes.action.ExercicioEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirExercicioJson" class="br.com.qtslive.configuracoes.action.ExercicioExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- LOCAL DA DOR -->
+        <action name="dor" class="br.com.qtslive.configuracoes.action.LocalDorListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/localdor.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarLocalDorJson" class="br.com.qtslive.configuracoes.action.LocalDorCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarLocalDorJson" class="br.com.qtslive.configuracoes.action.LocalDorEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirLocalDorJson" class="br.com.qtslive.configuracoes.action.LocalDorExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- LOCAL DO TRIENO -->
+        <action name="localtreino" class="br.com.qtslive.configuracoes.action.LocalTreinoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/localtreino.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarLocalTreinoJson" class="br.com.qtslive.configuracoes.action.LocalTreinoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarLocalTreinoJson" class="br.com.qtslive.configuracoes.action.LocalTreinoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirLocalTreinoJson" class="br.com.qtslive.configuracoes.action.LocalTreinoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- TIPO TREINAMENTO FÍSICO -->
+        <action name="tipotreinamentofisico" class="br.com.qtslive.configuracoes.action.TipoTreinamentoFisicoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/tipotreinamentofisico.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarTipoTreinamentoFisicoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoFisicoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarTipoTreinamentoFisicoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoFisicoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirTipoTreinamentoFisicoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoFisicoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- TIPO TREINAMENTO TÉCNICO -->
+        <action name="tipotreinamentotecnico" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTecnicoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/tipotreinamentotecnico.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarTipoTreinamentoTecnicoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTecnicoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarTipoTreinamentoTecnicoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTecnicoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirTipoTreinamentoTecnicoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTecnicoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- TIPO TREINAMENTO TÁTICO -->
+        <action name="tipotreinamentotatico" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTaticoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/tipotreinamentotatico.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarTipoTreinamentoTaticoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTaticoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarTipoTreinamentoTaticoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTaticoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirTipoTreinamentoTaticoJson" class="br.com.qtslive.configuracoes.action.TipoTreinamentoTaticoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- TIPO SESSÃO -->
+        <action name="tiposessao" class="br.com.qtslive.configuracoes.action.TipoSessaoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/tiposessao.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarTipoSessaoJson" class="br.com.qtslive.configuracoes.action.TipoSessaoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarTipoSessaoJson" class="br.com.qtslive.configuracoes.action.TipoSessaoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirTipoSessaoJson" class="br.com.qtslive.configuracoes.action.TipoSessaoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+		<!-- PERÍODO -->
+        <action name="periodos" class="br.com.qtslive.configuracoes.action.PeriodoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/periodo.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarPeriodoJson" class="br.com.qtslive.configuracoes.action.PeriodoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarPeriodoJson" class="br.com.qtslive.configuracoes.action.PeriodoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirPeriodoJson" class="br.com.qtslive.configuracoes.action.PeriodoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>    
+        
+        <!-- GRUPO -->
+        <action name="grupos" class="br.com.qtslive.configuracoes.action.GrupoListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/grupo.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarGrupoJson" class="br.com.qtslive.configuracoes.action.GrupoCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarGrupoJson" class="br.com.qtslive.configuracoes.action.GrupoEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirGrupoJson" class="br.com.qtslive.configuracoes.action.GrupoExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>        
+        
+        <!-- ESPECIAL -->
+        <action name="especial" class="br.com.qtslive.configuracoes.action.EspecialListarAction" method="listar">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/configuracoes/especial.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarEspecialJson" class="br.com.qtslive.configuracoes.action.EspecialCriarJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="editarEspecialJson" class="br.com.qtslive.configuracoes.action.EspecialEditarJsonAction" method="editar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirEspecialJson" class="br.com.qtslive.configuracoes.action.EspecialExcluirJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action> 
+		
+		<!-- USUARIOS -->		
+        <action name="usuarios" class="br.com.qtslive.usuario.action.ListarUsuariosAction" method="listarUsuarios">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/usuarios/usuarios.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="criarUsuarioJson" class="br.com.qtslive.usuario.action.CriarUsuarioJsonAction" method="criar">
+		   <interceptor-ref name="loginStack"/>
+           <result type="json"/>
+           <result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="obterUsuarioJson" class="br.com.qtslive.usuario.action.ObterUsuarioJsonAction" method="obter">
+		   <interceptor-ref name="loginStack"/>
+           <result type="json"/>
+           <result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="excluirUsuarioJson" class="br.com.qtslive.usuario.action.ExcluirUsuarioJsonAction" method="excluir">
+		   <interceptor-ref name="loginStack"/>
+           <result type="json"/>
+           <result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="usuario" class="br.com.qtslive.usuario.action.PerfilUsuarioAction" method="exibir">
+        	<interceptor-ref name="loginStack"/>        	
+        	<result name="success">WEB-INF/pages/usuarios/perfilUsuario.jsp</result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="alterarUsuarioJson" class="br.com.qtslive.usuario.action.AlterarUsuarioJsonAction" method="alterar">
+		   <interceptor-ref name="loginStack"/>
+           <result type="json"/>
+           <result name="login" type="redirect">login</result>
+        </action>
+        
+        
+        <!-- ATLETAS -->
+		<action name="atletas" class="br.com.qtslive.atleta.action.ListarAtletasAction" method="iniciar">
+		   <interceptor-ref name="loginStack"/>
+           <result name="success">WEB-INF/pages/atletas/atletas.jsp</result>
+           <result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="atleta" class="br.com.qtslive.atleta.action.PerfilAtletaAction" method="iniciar">
+		   <interceptor-ref name="loginStack"/>
+           <result name="success">WEB-INF/pages/atletas/perfil.jsp</result>
+           <result name="login" type="redirect">login</result>
+        </action>
+
+		<action name="criarAtletaJson" class="br.com.qtslive.atleta.action.CriarAtletaJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+<!-- 			<result name="success">WEB-INF/pages/atletas/atletas.jsp</result> -->
+        	<result name="login" type="redirect">login</result>	        	                    
+        </action>
+        
+        <action name="alterarAtletaJson" class="br.com.qtslive.atleta.action.AlterarAtletaJsonAction" method="alterar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>	        	                    
+        </action>
+        
+        <action name="excluirAtletaJson" class="br.com.qtslive.atleta.action.ExcluirAtletaJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>	        	                    
+        </action>
+        
+       
+        
+        <!-- TREINAMENTOS -->        
+        <action name="treinos" class="br.com.qtslive.treinamento.action.IniciarCalendarioTreinosAction" method="iniciar"> 
+        	<interceptor-ref name="loginStack"/>       	
+	        <result name="success">WEB-INF/pages/treinamento/calendarioTreinamentos.jsp</result>
+	        <result name="login" type="redirect">login</result>	        	              
+        </action>
+        
+        <action name="treino" class="br.com.qtslive.treinamento.action.EditarTreinoAction" method="iniciar"> 
+        	<interceptor-ref name="loginStack"/>       	
+	        <result name="success">WEB-INF/pages/treinamento/treinamento.jsp</result>
+	        <result name="login" type="redirect">login</result>	        	              
+        </action>
+        
+        <action name="criarTreinoJson" class="br.com.qtslive.treinamento.action.CriarTreinoJsonAction" method="criar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="listarTreinosSimplificadosJson" class="br.com.qtslive.treinamento.action.ListarTreinosSimplificadosJsonAction" method="listar">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+         <action name="excluirTreinoJson" class="br.com.qtslive.treinamento.action.ExcluirTreinoJsonAction" method="excluir">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <!-- FOTO UPLOAD -->
+        <action name="fotoUpload" class="br.com.qtslive.foto.action.FotoUploadJsonAction" method="upload">
+		    <interceptor-ref name="loginStack"/>
+        	<result type="json"/>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="obterFoto" class="br.com.qtslive.foto.action.ObterFotoStreamAction" method="obter">
+		    <interceptor-ref name="loginStack"/>
+        	<result name="success" type="stream">
+	            <param name="contentType">image/jpeg</param>
+	            <param name="inputName">inputStream</param>
+	            <param name="contentDisposition">filename="${filename}"</param>
+	            <param name="bufferSize">1024</param>
+		    </result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        <action name="fotoUsuario" class="br.com.qtslive.foto.action.FotoUsuarioStreamAction" method="obter">
+		    <interceptor-ref name="loginStack"/>
+        	<result name="success" type="stream">
+	            <param name="contentType">image/jpeg</param>
+	            <param name="inputName">inputStream</param>
+	            <param name="contentDisposition">filename="${filename}"</param>
+	            <param name="bufferSize">1024</param>
+		    </result>
+        	<result name="login" type="redirect">login</result>
+        </action>
+        
+        
+        
+        
+ 
+	</package>	
+	
+ 
+</struts>

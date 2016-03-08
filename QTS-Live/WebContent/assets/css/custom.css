@@ -1,0 +1,50 @@
+.profile-cover {
+    background: url('../images/jogadores.jpg');
+    background-size: cover;
+    width: 100%;
+    height: 200px;
+     
+       
+}
+
+.profile-image {
+    position: absolute;
+    margin: 100px 20px 20px 20px;  
+}
+
+.profile-image img {
+    
+    margin: 0 auto;
+/*     width: 150px;     */
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 0 5px #fff;
+    -moz-box-shadow: 0 0 0 5px #fff;
+    -o-box-shadow: 0 0 0 5px #fff;
+    box-shadow: 0 0 0 5px #fff;
+    
+    
+    display: inline-block;
+    width: 130px;
+    height: 130px;   
+    background-position: center center;
+    background-size: cover;
+}
+
+.toolbar {
+    float: left;
+}
+
+.past-event {
+	opacity: 0.4;
+    filter: alpha(opacity=40); /* msie */
+}
+
+td.details-control {
+    background: url('../resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../resources/details_close.png') no-repeat center center;
+}
+
+

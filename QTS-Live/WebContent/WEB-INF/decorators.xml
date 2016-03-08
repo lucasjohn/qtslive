@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/pages/decorators">
+	
+	<excludes>
+		<pattern>*pdf.do</pattern>
+		<pattern>*excel.do</pattern>
+		<pattern>*.html*</pattern>
+        <pattern>*.json*</pattern>
+        <pattern>*.xml*</pattern>
+        <pattern>*.download*</pattern> 
+        <pattern>/index.jsp</pattern>        
+        <pattern>/inicio.jsp</pattern>
+        <pattern>/erro.jsp</pattern>                
+	</excludes>
+	
+	<!-- <decorator name="main" page="layout.jsp"> -->
+	<decorator name="main" page="layout.jsp">
+		<!--<pattern>*.do</pattern>  -->
+		<pattern>*</pattern>
+	</decorator>
+	
+	<decorator name="welcome" page="login.jsp"/>		
+	
+</decorators>
